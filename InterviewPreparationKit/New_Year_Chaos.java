@@ -22,30 +22,36 @@ class Result {
 
     public static void minimumBribes(List<Integer> q) {
     // Write your code here
-    ArrayList<Integer> aux = new ArrayList<>();
     Integer bribeGeral = 0;
     Boolean chaotic = false;
-    for(int i=0;i<q.size();i++){
-        aux.add(i+1);
-        if(q.get(i) <= i){
-            continue;
-        }else{
-            Integer bribeIndividual = q.get(i)- (i+1);
-            if(bribeIndividual > 2 || bribeIndividual < -2){
+
+    for(int i=q.size() -1;i>=0;i--){
+        if(q.get(i)!= i+1){
+            if((i-1)>= 0 && q.get(i-1) == i+1){
+                int aux = q.get(i-1);
+                q.set((i-1),q.get(i));
+                q.set(i,aux);
+                bribeGeral++;
+            } else if ((i-2) >= 0 && q.get(i-2) == i+1){
+                q.set(i-2, q.get(i-1));
+                q.set(i-1, q.get(i));
+                q.set(i, q.get(i-2));
+                bribeGeral +=2;
+            } else {
                 chaotic = true;
                 break;
-            }else{
-                bribeGeral+= bribeIndividual;
             }
-            
         }
+        
+        
     }
-    
+
     if(chaotic){
         System.out.println("Too chaotic");
     }else{
         System.out.println(bribeGeral);
     }
-    }
+    
+}
 
 }
